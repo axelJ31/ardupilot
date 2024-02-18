@@ -1165,6 +1165,7 @@ AP_InertialSensor::detect_backends(void)
 
 #if defined(HAL_INS_PROBE_LIST)
     // IMUs defined by IMU lines in hwdef.dat
+    GCS_SEND_TEXT(MAV_SEVERITY_DEBUG, "INS probe list");
     HAL_INS_PROBE_LIST;
 #if defined(HAL_SITL_INVENSENSEV3)
     ADD_BACKEND(AP_InertialSensor_Invensensev3::probe(*this, hal.i2c_mgr->get_device(1, 1), ROTATION_NONE));
@@ -1296,7 +1297,6 @@ AP_InertialSensor::detect_backends(void)
 #endif
 
     if (_backend_count == 0) {
-
         // no real INS backends avail, lets use an empty substitute to boot ok and get to mavlink
         #if CONFIG_HAL_BOARD == HAL_BOARD_ESP32
         ADD_BACKEND(AP_InertialSensor_NONE::detect(*this, INS_NONE_SENSOR_A));
